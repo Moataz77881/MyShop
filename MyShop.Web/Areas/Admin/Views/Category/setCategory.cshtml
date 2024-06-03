@@ -1,0 +1,35 @@
+﻿@using MyShop.Web.DTOS
+@model CategoryDTO
+
+@{
+	ViewBag.PageTitle = "Category Managment";
+	ViewBag.CardTitle = "Create Category";
+	Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+<body>
+	<form method="post">
+		<div class="mb-3">
+			<label asp-for="@Model.Name"> Name</label>
+			<input asp-for="@Model.Name" class="form-control">
+			<span asp-validation-for="@Model.Name" class="text-danger"></span>
+
+		</div>
+		
+		<div class="mb-3">
+			<label asp-for="@Model.Discreption"> Discreption</label>
+			<input asp-for="@Model.Discreption" class="form-control">
+			<span asp-validation-for="@Model.Discreption" class="text-danger"></span>
+
+		</div>
+		<div class="mb-3">
+			<button type="submit" class="btn btn-primary"> Submit</button>
+			<a asp-action="getCategories" class="btn btn-dark"> Back To Categories</a>
+		</div>
+		
+	</form>
+</body>
+@section Scripts
+{
+	<partial name="_ValidationScriptsPartial"></partial>
+}
+

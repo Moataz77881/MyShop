@@ -1,0 +1,44 @@
+﻿@using MyShop.Web.DTOS
+
+@model List<CategoryDTO>
+@{
+	ViewBag.PageTitle = "Category Managment";
+	ViewBag.CardTitle = "Categories";
+	Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<partial name="_Toastr">
+<body>
+	
+	<div class="mb-2">
+		<a href="/Admin/Category/setCategory" class="btn btn-dark"> Create</a>
+	</div>
+
+	<table class="table table-hover" width="100%">
+		<tr>
+			<td>Name</td>
+			<td>Categories</td>
+			<td>Date</td>
+			<td>Actions</td>
+		</tr>
+		@foreach (var category in Model)
+		{
+			<tr>
+				<td>
+					@category.Name
+				</td>
+				<td>
+					@category.Discreption
+				</td>
+				<td>
+					@category.Date
+				</td>
+				<td>
+					<a href="/Admin/Category/EditCategory/@category.Id" class="btn btn-success"> Edit</a>
+					<a href="/Admin/Category/DeleteCategory/@category.Id" class="btn btn-danger"> Delete</a>
+
+				</td>
+			</tr>	
+		}
+	</table>
+</body>
