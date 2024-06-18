@@ -1,0 +1,48 @@
+﻿@using MyShop.Entity.DTOS
+
+@model List<ProductsListDTO>
+@{
+	ViewBag.PageTitle = "Product Managment";
+	ViewBag.CardTitle = "Products";
+	Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<partial name="_Toastr">
+	<body>
+
+		<div class="mb-2">
+			<a href="/Admin/Product/setProduct" class="btn btn-dark"> Create</a>
+		</div>
+
+		<table class="table table-hover" width="100%">
+			<tr>
+				<td>Name</td>
+				<td>Price</td>
+				<td>Image</td>
+				<td>Category</td>
+				<td>Actions</td>
+			</tr>
+			@foreach (var Product in Model)
+			{
+				<tr>
+					<td>
+						@Product.Name
+					</td>
+					<td>
+						@Product.Price
+					</td>
+					<td>
+						@Product.Image
+					</td>
+					<td>
+						@Product.Category.Name
+					</td>
+					<td>
+						<a href="/Admin/Product/EditProduct/@Product.Id" class="btn btn-success"> Edit</a>
+						<a href="/Admin/Product/deleteProduct/@Product.Id" class="btn btn-danger"> Delete</a>
+
+					</td>
+				</tr>
+			}
+		</table>
+	</body>

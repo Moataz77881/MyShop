@@ -31,7 +31,7 @@ namespace MyShop.DataAccess.Implementation
 			if (IncludeWord != null) 
 			{
 				foreach(var word in IncludeWord.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
-				query.Include(word);
+				query = query.Include(word);
 			}
 			return query.ToList();
 		}

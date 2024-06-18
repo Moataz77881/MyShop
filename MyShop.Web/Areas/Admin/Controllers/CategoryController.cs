@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyShop.Business.CategoryServes;
+using MyShop.Business.Services.CategoryService;
 using MyShop.Web.DTOS;
 
 namespace MyShop.Web.Areas.Admin.Controllers

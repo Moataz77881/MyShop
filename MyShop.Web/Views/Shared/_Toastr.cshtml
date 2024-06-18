@@ -22,3 +22,27 @@
 		toastr["error"]("@TempData["deleteCategory"]");
 	</script>
 }
+@if (TempData["setProduct"] != null)
+{
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+	<script type="text/javascript">
+		toastr["success"]("@TempData["setProduct"]");
+	</script>
+}
+@if (TempData["EditProduct"] != null)
+{
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+	<script type="text/javascript">
+		toastr["info"]("@TempData["EditProduct"]");
+	</script>
+}
+@if (TempData["deleteProduct"] != null)
+{
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+	<script type="text/javascript">
+		toastr["error"]("@TempData["deleteProduct"]");
+	</script>
+}

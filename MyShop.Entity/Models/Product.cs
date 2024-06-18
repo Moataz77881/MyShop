@@ -17,7 +17,7 @@ namespace MyShop.Entity.Models
         public string Image { get; set; }
         [Required]
         public decimal Price { get; set; }
-        [Required]
+        [Required]  
         public int CategoryId { get; set; }
         public Category Category { get; set; }
     }

@@ -1,14 +1,16 @@
 using Microsoft.EntityFrameworkCore;
-using MyShop.Business.CategoryServes;
-using MyShop.Business.CategoryServices;
+using MyShop.Business.Services.CategoryService;
+using MyShop.Business.Services.ImageService;
+using MyShop.Business.Services.ProductService;
 using MyShop.DataAccess.Implementation;
 using MyShop.DataAccess.Repository;
+using MyShop.Entity.ViewModel;
 using MyShop.Web.Data;
 using System.Security.Policy;
 
 namespace MyShop.Web
 {
-	public class Program
+    public class Program
 	{
 		public static void Main(string[] args)
 		{
@@ -23,7 +25,10 @@ namespace MyShop.Web
 			builder.Services.AddScoped<ICategoryService, CategoryServices>();
 			builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 			builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+			builder.Services.AddScoped<IProductRepository, ProductRepository>();
+			builder.Services.AddScoped<IProductServices, ProductServices>();
+			builder.Services.AddScoped<IImage, ImageImplementation>();
+			
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.

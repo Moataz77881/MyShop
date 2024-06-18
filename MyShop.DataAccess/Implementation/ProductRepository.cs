@@ -18,11 +18,11 @@ namespace MyShop.DataAccess.Implementation
 			var res = context.Products.FirstOrDefault(x => x.Id == product.Id);
 			if (res != null) 
 			{
-				product.Id = res.Id;
-				product.Name = res.Name;
-				product.Description = res.Description;
-				product.Price = res.Price;
-				product.Image = res.Image;
+				res.Id = product.Id; 
+				res.Name = product.Name;
+				res.Description = product.Description;
+				res.Price = product.Price;
+				res.Image = product.Image;
 			}
 		}
 	}
