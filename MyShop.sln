@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyShop.Business", "MyShop.B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyShop.DataAccess", "MyShop.DataAccess\MyShop.DataAccess.csproj", "{423831A1-63A9-4B0B-A5CB-D6B3C19B5F75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyShop.Utilities", "MyShop.Utilities\MyShop.Utilities.csproj", "{5CB36EFD-B1AA-407B-B0A4-EE50A3A8978E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{423831A1-63A9-4B0B-A5CB-D6B3C19B5F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{423831A1-63A9-4B0B-A5CB-D6B3C19B5F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{423831A1-63A9-4B0B-A5CB-D6B3C19B5F75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CB36EFD-B1AA-407B-B0A4-EE50A3A8978E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CB36EFD-B1AA-407B-B0A4-EE50A3A8978E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CB36EFD-B1AA-407B-B0A4-EE50A3A8978E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CB36EFD-B1AA-407B-B0A4-EE50A3A8978E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

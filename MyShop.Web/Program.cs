@@ -4,9 +4,10 @@ using MyShop.Business.Services.ImageService;
 using MyShop.Business.Services.ProductService;
 using MyShop.DataAccess.Implementation;
 using MyShop.DataAccess.Repository;
-using MyShop.Entity.ViewModel;
 using MyShop.Web.Data;
-using System.Security.Policy;
+using Microsoft.AspNetCore.Identity;
+using MyShop.Utilities;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace MyShop.Web
 {
@@ -22,12 +23,18 @@ namespace MyShop.Web
 			builder.Services.AddDbContext<ApplicationDbContext>(
 				options => options.UseSqlServer(builder.Configuration.GetConnectionString("MyShopDatabase"))
 			);
+
+			builder.Services.AddIdentity<IdentityUser,IdentityRole>()
+				.AddDefaultTokenProviders()
+				.AddEntityFrameworkStores<ApplicationDbContext>();
+
 			builder.Services.AddScoped<ICategoryService, CategoryServices>();
 			builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 			builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 			builder.Services.AddScoped<IProductRepository, ProductRepository>();
 			builder.Services.AddScoped<IProductServices, ProductServices>();
 			builder.Services.AddScoped<IImage, ImageImplementation>();
+			builder.Services.AddSingleton<IEmailSender, EmailSender>();
 			
 			var app = builder.Build();
 
@@ -46,12 +53,16 @@ namespace MyShop.Web
 
 			app.UseAuthorization();
 
-			app.MapControllerRoute(
-				name: "default",
-				pattern: "{area=Admin}/{controller=Category}/{action=getCategories}/{id?}");
+			app.MapRazorPages();
+
             app.MapControllerRoute(
-                name: "Cudtomer",
-                pattern: "{area=Customer}/{controller=Item}/{action=getAllitems}/{id?}");
+				name: "Cudtomer",
+				pattern: "{area=Customer}/{controller=Item}/{action=getAllitems}/{id?}");
+
+            app.MapControllerRoute(
+				name: "Admin",
+				pattern: "{area=Admin}/{controller=Category}/{action=getCategories}/{id?}");
+
 
             app.Run();
 		}
