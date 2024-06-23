@@ -78,7 +78,9 @@ namespace MyShop.Business.Services.ProductService
 
 		public ProductDTO getProductById(int id)
 		{
-			var productModel = unitOfWork.Product.GetFristOrDefult(x => x.Id == id);
+			var productModel = unitOfWork
+				.Product
+				.GetFristOrDefult(x => x.Id == id,IncludeWord: "Category");
 			
 			var productDTO = new ProductDTO
 			{
@@ -87,7 +89,11 @@ namespace MyShop.Business.Services.ProductService
 				Description = productModel.Description,
 				Image = productModel.Image,
 				Price = productModel.Price,
-				CategoryId = productModel.CategoryId
+				CategoryId = productModel.CategoryId,
+				Category = new CategoryDTO 
+				{
+					Name = productModel.Category.Name,
+				}
 			};
 
 			return productDTO;	

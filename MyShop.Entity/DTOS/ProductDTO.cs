@@ -1,4 +1,5 @@
-﻿using MyShop.Web.Models;
+﻿using MyShop.Web.DTOS;
+using MyShop.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,5 +21,6 @@ namespace MyShop.Entity.DTOS
 		public decimal Price { get; set; }
 		[Required]
 		public int CategoryId { get; set; }
-	}
+        public CategoryDTO? Category { get; set; }
+    }
 }

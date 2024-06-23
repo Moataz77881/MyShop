@@ -49,8 +49,11 @@ namespace MyShop.Web
 			app.MapControllerRoute(
 				name: "default",
 				pattern: "{area=Admin}/{controller=Category}/{action=getCategories}/{id?}");
+            app.MapControllerRoute(
+                name: "Cudtomer",
+                pattern: "{area=Customer}/{controller=Item}/{action=getAllitems}/{id?}");
 
-			app.Run();
+            app.Run();
 		}
 	}
 }
