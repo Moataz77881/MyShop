@@ -1,0 +1,60 @@
+﻿@using MyShop.Entity.DTOS
+
+@model List<ApplicationUserDTO>
+
+@{
+	ViewBag.PageTitle = "Category Managment";
+	ViewBag.CardTitle = "Categories";
+	Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<partial name="_Toastr">
+	<body>
+		<div class="mb-2">
+			<a href="/Identity/Account/Register" class="btn btn-dark"> Create</a>
+		</div>
+
+		<table class="table table-hover" width="100%">
+			<tr>
+				<td>Name</td>
+				<td>City</td>
+				<td>Address</td>
+				<td> User name</td>
+				<td>Actions</td>
+			</tr>
+			@foreach (var user in Model)
+			{
+				<tr>
+					<td>
+						@user.Name
+					</td>
+					<td>
+						@user.City
+					</td>
+					<td>
+						@user.Address
+					</td>
+					<td>
+						@user.UserName
+					</td>
+					<td>
+						@if (user.LockoutEnd == null || user.LockoutEnd < DateTime.Now)
+						{
+							<a class="btn btn-success" asp-action="LockUnlockUsers" asp-route-id="@user.Id">
+								<i class="fas fa-lock-open"></i>
+							</a>
+						}
+						else
+						{
+							<a class="btn btn-danger" asp-action="LockUnlockUsers" asp-route-id="@user.Id">
+								<i class="fas fa-lock"></i>
+							</a>
+						}
+
+						<a href="/Admin/Users/deleteUser/@user.Id" class="btn btn-danger"> Delete</a>
+
+					</td>
+				</tr>
+			}
+		</table>
+	</body>

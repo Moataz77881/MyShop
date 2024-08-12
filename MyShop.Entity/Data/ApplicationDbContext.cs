@@ -15,8 +15,11 @@ namespace MyShop.Web.Data
         public DbSet<Category> Categories { get; set; }
 		public DbSet<Product> Products { get; set; }
         public DbSet<ApplicationUser> userAccount { get; set; }
+		public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<OrderHeader> orderHeaders { get; set; }
+        public DbSet<OrderDetails> orderDetails { get; set; }
 
-		protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder builder)
 		{
 			var role = new List<IdentityRole>
 			{

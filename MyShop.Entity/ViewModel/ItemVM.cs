@@ -13,5 +13,6 @@ namespace MyShop.Entity.ViewModel
         [Range(1,10, ErrorMessage ="You must enter value between 1 to 10")]
         public int Count { get; set; }
         public ProductDTO product { get; set; }
-    }
+		public string? ApplicationUserId { get; set; }
+	}
 }

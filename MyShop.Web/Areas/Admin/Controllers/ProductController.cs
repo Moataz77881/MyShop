@@ -1,14 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyShop.Business.Services.CategoryService;
 using MyShop.Business.Services.ImageService;
 using MyShop.Business.Services.ProductService;
+using MyShop.Entity;
 using MyShop.Entity.DTOS;
 using MyShop.Entity.ViewModel;
 
 namespace MyShop.Web.Areas.Admin.Controllers
 {
 	[Area("Admin")]
+	[Authorize]
+	
 	public class ProductController : Controller
 	{
 		private readonly ICategoryService categoryService;
@@ -27,6 +31,8 @@ namespace MyShop.Web.Areas.Admin.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = nameof(RolesName.Editor) + "," + nameof(RolesName.Admin))]
+
 		public IActionResult setProduct()
 		{
 			productVM productVM = new productVM()
@@ -42,6 +48,8 @@ namespace MyShop.Web.Areas.Admin.Controllers
 		}
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = nameof(RolesName.Editor) + "," + nameof(RolesName.Admin))]
+
 		public IActionResult setProduct(productVM productVM, IFormFile file)
 		{
 			var rootPath = webHost.WebRootPath;
@@ -51,6 +59,7 @@ namespace MyShop.Web.Areas.Admin.Controllers
 			return RedirectToAction("viewProduct", "Product");
 		}
 		[HttpGet]
+		[Authorize(Roles = nameof(RolesName.Editor) + "," + nameof(RolesName.Admin))]
 		public IActionResult viewProduct() 
 		{
 			var res = productServices.getProduct();
@@ -59,6 +68,8 @@ namespace MyShop.Web.Areas.Admin.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = nameof(RolesName.Editor) + "," + nameof(RolesName.Admin))]
+
 		public IActionResult EditProduct(int id)
 		{
 			var productVM = new productVM
@@ -75,6 +86,8 @@ namespace MyShop.Web.Areas.Admin.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = nameof(RolesName.Editor) + "," + nameof(RolesName.Admin))]
+
 		public IActionResult EditProduct(productVM productVM, IFormFile file)
 		{
 			string rootPath = webHost.WebRootPath;
@@ -83,7 +96,7 @@ namespace MyShop.Web.Areas.Admin.Controllers
 			TempData["EditProduct"] = "Data Has Edited Successfully";
 			return RedirectToAction("viewProduct", "Product");
 		}
-
+		[Authorize(Roles = nameof(RolesName.Admin))]
 		public IActionResult deleteProduct(int id) 
 		{
 			productServices.deleteProduct(id);

@@ -8,6 +8,11 @@ using MyShop.Web.Data;
 using Microsoft.AspNetCore.Identity;
 using MyShop.Utilities;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using MyShop.Business.Services.UsersService;
+using MyShop.Business.Services.ShoppingCartService;
+using Stripe;
+using MyShop.Business.Services.PaymentService;
+using MyShop.Business.Services.OrderHeaderService;
 
 namespace MyShop.Web
 {
@@ -23,8 +28,12 @@ namespace MyShop.Web
 			builder.Services.AddDbContext<ApplicationDbContext>(
 				options => options.UseSqlServer(builder.Configuration.GetConnectionString("MyShopDatabase"))
 			);
+			builder.Services.Configure<StripeKeys>(builder.Configuration.GetSection("Stripe"));
 
-			builder.Services.AddIdentity<IdentityUser,IdentityRole>()
+			builder.Services.AddIdentity<IdentityUser,IdentityRole>(
+				options => 
+				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(4)
+				).AddDefaultUI()
 				.AddDefaultTokenProviders()
 				.AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -32,9 +41,17 @@ namespace MyShop.Web
 			builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 			builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 			builder.Services.AddScoped<IProductRepository, ProductRepository>();
-			builder.Services.AddScoped<IProductServices, ProductServices>();
+			builder.Services.AddScoped<IProductServices, ProductServices>();	
 			builder.Services.AddScoped<IImage, ImageImplementation>();
 			builder.Services.AddSingleton<IEmailSender, EmailSender>();
+			builder.Services.AddScoped<IUsers, UsersRepository>();
+			builder.Services.AddScoped<IUserService, UserService>();
+			builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
+			builder.Services.AddScoped<IShoppingCart, ShoppingCartRepository>();
+			builder.Services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
+			builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+			builder.Services.AddScoped<IPaymentService, PaymentServices>();
+			builder.Services.AddScoped<IOrderHeaderServices, OrderHeaderServices>();
 			
 			var app = builder.Build();
 
@@ -51,7 +68,10 @@ namespace MyShop.Web
 
 			app.UseRouting();
 
+			StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:secretKey").Get<string>();
+
 			app.UseAuthorization();
+
 
 			app.MapRazorPages();
 

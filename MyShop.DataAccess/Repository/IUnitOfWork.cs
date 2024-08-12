@@ -10,6 +10,10 @@ namespace MyShop.DataAccess.Repository
 	{
 		ICategoryRepository Category { get; }
 		IProductRepository Product { get; }
+		IUsers users { get; }
+		IShoppingCart ShoppingCart { get; }
+		IOrderHeaderRepository OrderHeader { get; }
+		IOrderDetailRepository OrderDetail { get; }
 		int complete();
 	}
 }

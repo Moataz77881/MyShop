@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyShop.Web.Data;
 
@@ -11,9 +12,11 @@ using MyShop.Web.Data;
 namespace MyShop.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240627170604_AddShoppingCartTable")]
+    partial class AddShoppingCartTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,84 +252,6 @@ namespace MyShop.Web.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("MyShop.Entity.Models.OrderDetails", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("orderHeaderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("productId")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("orderHeaderId");
-
-                    b.HasIndex("productId");
-
-                    b.ToTable("orderDetails");
-                });
-
-            modelBuilder.Entity("MyShop.Entity.Models.OrderHeader", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Carrier")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("applicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("orderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("orderStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("paymentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("paymentId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("paymentStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("sessionId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("shippingDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("totalPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("trackingNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("applicationUserId");
-
-                    b.ToTable("orderHeaders");
-                });
-
             modelBuilder.Entity("MyShop.Entity.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -479,36 +404,6 @@ namespace MyShop.Web.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("MyShop.Entity.Models.OrderDetails", b =>
-                {
-                    b.HasOne("MyShop.Entity.Models.OrderHeader", "orderHeader")
-                        .WithMany()
-                        .HasForeignKey("orderHeaderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MyShop.Entity.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("productId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("orderHeader");
-                });
-
-            modelBuilder.Entity("MyShop.Entity.Models.OrderHeader", b =>
-                {
-                    b.HasOne("MyShop.Entity.Models.ApplicationUser", "applicationUser")
-                        .WithMany()
-                        .HasForeignKey("applicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("applicationUser");
                 });
 
             modelBuilder.Entity("MyShop.Entity.Models.Product", b =>
