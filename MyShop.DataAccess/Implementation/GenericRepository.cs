@@ -8,17 +8,20 @@ namespace MyShop.DataAccess.Implementation
 {
 	public class GenericRepository<T> : IGenericRepository<T> where T : class
 	{
-		private readonly ApplicationDbContext context;
 		private readonly DbSet<T> dbSet;
 
 		public GenericRepository(ApplicationDbContext context)
         {
-			this.context = context;
 			dbSet = context.Set<T>();
 		}
         public void Add(T entity)
 		{
 			dbSet.Add(entity);
+		}
+
+		public void AddRange(List<T> entities)
+		{
+			dbSet.AddRange(entities);
 		}
 
 		public IEnumerable<T> GetAll(Expression<Func<T, bool>>? perdicate = null, string? IncludeWord = null)
@@ -31,7 +34,7 @@ namespace MyShop.DataAccess.Implementation
 			if (IncludeWord != null) 
 			{
 				foreach(var word in IncludeWord.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
-				query.Include(word);
+				query = query.AsNoTracking().Include(word);
 			}
 			return query.ToList();
 		}
@@ -47,7 +50,7 @@ namespace MyShop.DataAccess.Implementation
 			{
 				foreach (var word in IncludeWord.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) 
 				{
-					query.Include(word);
+					query = query.AsNoTracking().Include(word);
 				}
 			}
 			return query.FirstOrDefault();

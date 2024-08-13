@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyShop.Business.CategoryServes;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MyShop.Business.Services.CategoryService;
+using MyShop.Entity;
 using MyShop.Web.DTOS;
 
 namespace MyShop.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ICategoryService categoryService;
@@ -15,6 +18,7 @@ namespace MyShop.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles =nameof(RolesName.Admin)+","+nameof(RolesName.Editor))]
         public IActionResult getCategories()
         {
             var categories = categoryService.getCategories();
@@ -22,12 +26,16 @@ namespace MyShop.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult setCategory()
+		[Authorize(Roles = nameof(RolesName.Admin) + "," + nameof(RolesName.Editor))]
+
+		public IActionResult setCategory()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult setCategory(CategoryDTO categoryDTO)
+		[Authorize(Roles = nameof(RolesName.Admin) + "," + nameof(RolesName.Editor))]
+
+		public IActionResult setCategory(CategoryDTO categoryDTO)
         {
             if (ModelState.IsValid)
             {
@@ -38,14 +46,18 @@ namespace MyShop.Web.Areas.Admin.Controllers
             return View(categoryDTO);
         }
         [HttpGet]
-        public IActionResult editCategory(int id)
+		[Authorize(Roles = nameof(RolesName.Admin) + "," + nameof(RolesName.Editor))]
+
+		public IActionResult editCategory(int id)
         {
             var category = categoryService.getCategoryById(id);
             return View(category);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult editCategory(CategoryDTO categoryDTO)
+		[Authorize(Roles = nameof(RolesName.Admin) + "," + nameof(RolesName.Editor))]
+
+		public IActionResult editCategory(CategoryDTO categoryDTO)
         {
             if (ModelState.IsValid)
             {
@@ -57,6 +69,7 @@ namespace MyShop.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles =nameof(RolesName.Admin))]
         public IActionResult deleteCategory(int id)
         {
             categoryService.deleteCategory(id);

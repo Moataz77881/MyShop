@@ -1,0 +1,55 @@
+﻿@using MyShop.Entity.ViewModel
+@model productVM
+
+@{
+	ViewBag.PageTitle = "Product Managment";
+	ViewBag.CardTitle = "Create Product";
+}
+<body>
+	<form method="post" enctype="multipart/form-data">
+		<div class="mb-3">
+			<input hidden asp-for="product.Id"/>
+			<label asp-for="product.Name"> Name</label>
+			<input asp-for="product.Name" class="form-control">
+			<span asp-validation-for="product.Name" class="text-danger"></span>
+
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="product.Description"> Discreption</label>
+			<input asp-for="product.Description" class="form-control">
+			<span asp-validation-for="product.Description" class="text-danger"></span>
+
+		</div>
+		<div class="mb-3">
+			<label asp-for="product.Price"> Price</label>
+			<input asp-for="product.Price" class="form-control">
+			<span asp-validation-for="product.Price" class="text-danger"></span>
+
+		</div>
+		<div class="mb-3">
+			<label> Image</label>
+			<input type="file" name="file" id="File" class="form-control" required>
+			@Html.ValidationMessage("file", "", new { @class = "text-danger" })
+		</div>
+		<div class="mb-3">
+			<label>Category</label>
+			<select class="form-control" asp-for="product.CategoryId" asp-items="@Model.categories">
+
+				<option disabled selected> ---select---</option>
+			</select>
+			<span asp-validation-for="product.CategoryId" class="text-danger"></span>
+
+		</div>
+		<div class="mb-3">
+			<button type="submit" class="btn btn-primary"> Submit</button>
+			<a asp-action="ViewProduct" class="btn btn-dark"> Back To Products</a>
+		</div>
+
+	</form>
+</body>
+@section Scripts
+{
+	<partial name="_ValidationScriptsPartial"></partial>
+}
+
