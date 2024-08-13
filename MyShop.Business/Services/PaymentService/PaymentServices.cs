@@ -2,6 +2,7 @@
 using MyShop.Business.Services.OrderHeaderService;
 using MyShop.Business.Services.ShoppingCartService;
 using MyShop.DataAccess.Repository;
+using MyShop.Entity.Models;
 using MyShop.Entity.ViewModel;
 using Stripe.Checkout;
 using System;
@@ -35,7 +36,7 @@ namespace MyShop.Business.Services.PaymentService
 				LineItems = new List<SessionLineItemOptions>(),
 
 				Mode = "payment",
-				SuccessUrl = domain,
+				SuccessUrl = domain + $"Customer/Payment/confirmation?id={userId}",
 				CancelUrl = domain + $"Customer/Cart/viewShoppingCarts",
 			};
 
@@ -64,11 +65,43 @@ namespace MyShop.Business.Services.PaymentService
 
 			var userOrderHeader = unitOfWork.OrderHeader.GetFristOrDefult(x => x.applicationUserId == userId);
 
-			if (userOrderHeader == null) 
+			if (userOrderHeader == null)
 				orderHeaderServices.AddOrderHeader(cardVm, userId, session.Id, session.PaymentIntentId);
-
+			else
+				orderHeaderServices.UpdateOrderHeader(cardVm, userId, session.Id, session.PaymentIntentId, userOrderHeader.Id);
+			
 			return session.Url;
 
+		}
+
+		public void paymentConfirmation(string id)
+		{
+			var orderHeader = orderHeaderServices.getOrderHeaderById(id);
+			var service = new SessionService();
+			var session = service.Get(orderHeader.sessionId);
+
+			if (session.PaymentStatus.ToLower() == "paid")
+			{
+				var model = new OrderHeader
+				{
+					Id = orderHeader.Id,
+					applicationUserId = orderHeader.applicationUserId,
+					totalPrice = orderHeader.totalPrice,
+					orderDate = DateTime.Now,
+					shippingDate = orderHeader.shippingDate,
+					orderStatus = orderHeader.orderStatus,
+					paymentStatus = "paid",
+					paymentDate = DateTime.Now,
+					sessionId = session.Id,
+					paymentId = session.PaymentIntentId
+				
+				};
+				unitOfWork.OrderHeader.Edit(model);
+				unitOfWork.complete();
+				IEnumerable<ShoppingCart> carts = unitOfWork.ShoppingCart.GetAll(perdicate: x => x.ApplicationUserId == id);
+				unitOfWork.ShoppingCart.RemoveRange(carts);
+				unitOfWork.complete();
+			}
 		}
 	}
 }

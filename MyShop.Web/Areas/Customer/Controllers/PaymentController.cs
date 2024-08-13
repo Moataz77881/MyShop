@@ -37,5 +37,13 @@ namespace MyShop.Web.Areas.Customer.Controllers
 
 			return new StatusCodeResult(303);
 		}
+
+		[HttpGet]
+		public IActionResult confirmation(string id) 
+		{
+			paymentService.paymentConfirmation(id);
+
+			return RedirectToAction("viewShoppingCarts", "Cart", new { area = "Customer" });
+		}
 	}
 }

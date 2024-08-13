@@ -1,4 +1,5 @@
-﻿using MyShop.Entity.ViewModel;
+﻿using MyShop.Entity.DTOS;
+using MyShop.Entity.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,10 @@ namespace MyShop.Business.Services.OrderHeaderService
 	{
 		public void AddOrderHeader(CartVM cartVM, 
 			string userId, string sessionId, string PaymentIntentId);
+
+		public OrderHeaderDto getOrderHeaderById(string? userId);
+		public void UpdateOrderHeader(CartVM cartVM,
+			string userId, string sessionId, string PaymentIntentId, int headerId);
 
 	}
 }
