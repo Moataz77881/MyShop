@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\OrderDetails.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\js\site.js" />
   </ItemGroup>
 
@@ -20,7 +24,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.3" />
     <PackageReference Include="Stripe.net" Version="45.7.0" />
   </ItemGroup>
 

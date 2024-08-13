@@ -11,7 +11,8 @@ namespace MyShop.Entity.DTOS
 	{
 		public int Id { get; set; }
 		public string applicationUserId { get; set; }
-		public decimal totalPrice { get; set; }
+        public ApplicationUserDTO? applicationUserDTO { get; set; }
+        public decimal totalPrice { get; set; }
 		public DateTime orderDate { get; set; }
 		public DateTime shippingDate { get; set; }
 		public string? orderStatus { get; set; }

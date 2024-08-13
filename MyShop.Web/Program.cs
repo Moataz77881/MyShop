@@ -13,6 +13,7 @@ using MyShop.Business.Services.ShoppingCartService;
 using Stripe;
 using MyShop.Business.Services.PaymentService;
 using MyShop.Business.Services.OrderHeaderService;
+using MyShop.Business.Services.orderDetailsService;
 
 namespace MyShop.Web
 {
@@ -52,6 +53,7 @@ namespace MyShop.Web
 			builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 			builder.Services.AddScoped<IPaymentService, PaymentServices>();
 			builder.Services.AddScoped<IOrderHeaderServices, OrderHeaderServices>();
+			builder.Services.AddScoped<IOrderDetailsServices, OrderDetailsServices>();
 			
 			var app = builder.Build();
 

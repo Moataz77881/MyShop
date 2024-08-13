@@ -17,5 +17,7 @@ namespace MyShop.Business.Services.OrderHeaderService
 		public void UpdateOrderHeader(CartVM cartVM,
 			string userId, string sessionId, string PaymentIntentId, int headerId);
 
+		public List<OrderHeaderDto> getAll();
+
 	}
 }

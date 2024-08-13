@@ -74,6 +74,7 @@ namespace MyShop.Business.Services.ShoppingCartService
 					Description = item.product.Description,
 					Image = item.product.Image,
 					Price = item.product.Price,
+					ProductId = item.ProductId
 				});
 				cartVM.TotalCard += item.count * item.product.Price;
 			}

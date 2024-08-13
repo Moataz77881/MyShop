@@ -1,16 +1,9 @@
-﻿using Azure;
-using MyShop.Business.Services.OrderHeaderService;
+﻿using MyShop.Business.Services.OrderHeaderService;
 using MyShop.Business.Services.ShoppingCartService;
 using MyShop.DataAccess.Repository;
 using MyShop.Entity.Models;
-using MyShop.Entity.ViewModel;
 using Stripe.Checkout;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MyShop.Business.Services.PaymentService
 {
@@ -19,13 +12,15 @@ namespace MyShop.Business.Services.PaymentService
 		private readonly IShoppingCartService serviceCart;
 		private readonly IOrderHeaderServices orderHeaderServices;
 		private readonly IUnitOfWork unitOfWork;
+		private readonly IShoppingCartService shoppingCartService;
 
 		public PaymentServices(IShoppingCartService serviceCart, IOrderHeaderServices orderHeaderServices
-			,IUnitOfWork unitOfWork)
+			,IUnitOfWork unitOfWork, IShoppingCartService shoppingCartService)
         {
 			this.serviceCart = serviceCart;
 			this.orderHeaderServices = orderHeaderServices;
 			this.unitOfWork = unitOfWork;
+			this.shoppingCartService = shoppingCartService;
 		}
         public string CreateCheckoutSession(string userId)
 		{
@@ -98,9 +93,31 @@ namespace MyShop.Business.Services.PaymentService
 				};
 				unitOfWork.OrderHeader.Edit(model);
 				unitOfWork.complete();
+				// add List order details
+					//get shopping cartVm
+				var shoppingCarts = shoppingCartService.GetAllCart(id);
+
+					//map to model
+				List<OrderDetails> orderDetails = new List<OrderDetails>();
+				foreach (var item in shoppingCarts.ShoppingCartDTO) 
+				{
+					orderDetails.Add(new OrderDetails
+					{
+						Count= item.count,
+						orderHeaderId = orderHeader.Id,
+						Price = item.Price,
+						productId = item.ProductId
+					});
+				}
+				//add Details to database
+				unitOfWork.OrderDetail.AddRange(orderDetails);
+				unitOfWork.complete();
+
+				//remove List shopping cart Models
 				IEnumerable<ShoppingCart> carts = unitOfWork.ShoppingCart.GetAll(perdicate: x => x.ApplicationUserId == id);
 				unitOfWork.ShoppingCart.RemoveRange(carts);
 				unitOfWork.complete();
+
 			}
 		}
 	}

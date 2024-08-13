@@ -15,11 +15,11 @@ namespace MyShop.Business.Services.OrderHeaderService
 		private readonly IUnitOfWork unitOfWork;
 
 		public OrderHeaderServices(IUnitOfWork unitOfWork)
-        {
+		{
 			this.unitOfWork = unitOfWork;
 		}
 
-		public void AddOrderHeader(CartVM cartVM , string userId, string sessionId, string PaymentIntentId)
+		public void AddOrderHeader(CartVM cartVM, string userId, string sessionId, string PaymentIntentId)
 		{
 			var orderHeaderModel = new OrderHeader
 			{
@@ -27,15 +27,48 @@ namespace MyShop.Business.Services.OrderHeaderService
 				paymentId = PaymentIntentId,
 				sessionId = sessionId,
 				totalPrice = cartVM.TotalCard,
-				paymentStatus="Pending",
+				paymentStatus = "Pending",
 			};
 			unitOfWork.OrderHeader.Add(orderHeaderModel);
 			unitOfWork.complete();
 		}
 
+		public List<OrderHeaderDto> getAll()
+		{
+			var listOrderHeaderModel = unitOfWork.OrderHeader.GetAll(IncludeWord: "applicationUser");
+			List<OrderHeaderDto> orderHeaderDtos = new List<OrderHeaderDto>();
+
+			foreach (var item in listOrderHeaderModel)
+			{
+				orderHeaderDtos.Add(new OrderHeaderDto
+				{
+					Id = item.Id,
+					applicationUserDTO = new ApplicationUserDTO
+					{
+						Name = item.applicationUser.Name,
+						Address = item.applicationUser.Address,
+						City = item.applicationUser.City,
+						PhoneNumber = item.applicationUser.PhoneNumber,
+						Email = item.applicationUser.Email
+					},
+					applicationUserId = item.applicationUserId,
+					orderDate = item.orderDate,
+					orderStatus = item.orderStatus,
+					paymentDate = item.paymentDate,
+					paymentStatus = item.paymentStatus,
+					paymentId = item.paymentId,
+					sessionId = item.sessionId,
+					totalPrice = item.totalPrice,
+
+				});
+			}
+			return orderHeaderDtos;
+
+		}
+
 		public OrderHeaderDto getOrderHeaderById(string? userId)
 		{
-		 	var orderHeaderModel = unitOfWork.OrderHeader.GetFristOrDefult(u => u.applicationUserId == userId);
+			var orderHeaderModel = unitOfWork.OrderHeader.GetFristOrDefult(u => u.applicationUserId == userId);
 
 
 			return new OrderHeaderDto

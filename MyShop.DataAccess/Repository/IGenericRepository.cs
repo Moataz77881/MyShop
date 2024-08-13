@@ -11,5 +11,6 @@ namespace MyShop.DataAccess.Repository
 		void Add(T entity);
 		void Remove(T entity);
 		void RemoveRange(IEnumerable<T> entities);
+		void AddRange(List<T> entities);
 	}
 }

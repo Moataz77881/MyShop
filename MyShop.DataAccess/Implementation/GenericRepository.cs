@@ -19,6 +19,11 @@ namespace MyShop.DataAccess.Implementation
 			dbSet.Add(entity);
 		}
 
+		public void AddRange(List<T> entities)
+		{
+			dbSet.AddRange(entities);
+		}
+
 		public IEnumerable<T> GetAll(Expression<Func<T, bool>>? perdicate = null, string? IncludeWord = null)
 		{
 			IQueryable<T> query = dbSet;
